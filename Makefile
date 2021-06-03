@@ -1,7 +1,7 @@
 PROJECT_ID := dockerosm
-COMPOSE_FILE := docker-compose.yml
+# COMPOSE_FILE := docker-compose.yml
 # Uncomment the next line if you want to display data with Leaflet.
-# COMPOSE_FILE := docker-compose-web.yml
+COMPOSE_FILE := docker-compose-web.yml
 
 .PHONY: logs
 
