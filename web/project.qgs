@@ -19,10 +19,10 @@
   </projectCrs>
   <layer-tree-group>
     <customproperties/>
-    <layer-tree-layer name="osm_roads" expanded="1" id="osm_roads20180302190105366" source="dbname='gis' host=db port=5432 user='docker' sslmode=disable key='id,osm_id' srid=4326 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;osm_roads&quot; (geometry) sql=" providerKey="postgres" checked="Qt::Checked">
+    <layer-tree-layer name="osm_roads" expanded="1" id="osm_roads20180302190105366" source="dbname='gis' host=db port=5432 user='osm' sslmode=disable key='id,osm_id' srid=4326 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;osm_roads&quot; (geometry) sql=" providerKey="postgres" checked="Qt::Checked">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer name="osm_buildings" expanded="1" id="osm_buildings20160720014515980" source="dbname='gis' host=db port=5432 user='docker' sslmode=disable key='id,osm_id' srid=4326 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;osm_buildings&quot; (geometry) sql=" providerKey="postgres" checked="Qt::Checked">
+    <layer-tree-layer name="osm_buildings" expanded="1" id="osm_buildings20160720014515980" source="dbname='gis' host=db port=5432 user='osm' sslmode=disable key='id,osm_id' srid=4326 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;osm_buildings&quot; (geometry) sql=" providerKey="postgres" checked="Qt::Checked">
       <customproperties/>
     </layer-tree-layer>
     <custom-order enabled="0">
@@ -83,7 +83,7 @@
         <ymax>71.23581296164789478</ymax>
       </extent>
       <id>osm_buildings20160720014515980</id>
-      <datasource>dbname='gis' host=db port=5432 user='docker' password='docker' sslmode=disable key='id,osm_id' srid=4326 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."osm_buildings" (geometry) sql=</datasource>
+      <datasource>dbname='gis' host=db port=5432 user='osm' password='H87fROh7feSDsrNU' sslmode=disable key='id,osm_id' srid=4326 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."osm_buildings" (geometry) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -320,7 +320,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>69.04282369931030416</ymax>
       </extent>
       <id>osm_roads20180302190105366</id>
-      <datasource>dbname='gis' host=db port=5432 user='docker' password='docker' sslmode=disable key='id,osm_id' srid=4326 type=LineString checkPrimaryKeyUnicity='1' table="public"."osm_roads" (geometry) sql=</datasource>
+      <datasource>dbname='gis' host=db port=5432 user='osm' password='H87fROh7feSDsrNU' sslmode=disable key='id,osm_id' srid=4326 type=LineString checkPrimaryKeyUnicity='1' table="public"."osm_roads" (geometry) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
