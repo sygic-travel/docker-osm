@@ -37,7 +37,7 @@ CREATE TABLE layer_styles (
 );
 
 
-ALTER TABLE layer_styles OWNER TO docker;
+ALTER TABLE layer_styles OWNER TO osm;
 
 --
 -- Name: layer_styles_id_seq; Type: SEQUENCE; Schema: public; Owner: docker
@@ -51,7 +51,7 @@ CREATE SEQUENCE layer_styles_id_seq
     CACHE 1;
 
 
-ALTER TABLE layer_styles_id_seq OWNER TO docker;
+ALTER TABLE layer_styles_id_seq OWNER TO osm;
 
 --
 -- Name: layer_styles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: docker
