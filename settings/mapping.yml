@@ -1,567 +1,223 @@
-areas:
-  area_tags: [buildings, landuse, leisure, natural, aeroway]
-  linear_tags: [highway, barrier]
-generalized_tables:
-  landusages_gen0:
-    source: landusages_gen1
-    sql_filter: ST_Area(geometry)>500000.000000
-    tolerance: 200.0
-  landusages_gen1:
-    source: landusages
-    sql_filter: ST_Area(geometry)>50000.000000
-    tolerance: 50.0
-  roads_gen0:
-    source: roads_gen1
-    tolerance: 200.0
-  roads_gen1:
-    source: roads
-    sql_filter:
-      type IN (
-        'motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary',
-        'primary_link', 'secondary', 'secondary_link', 'tertiary', 'tertiary_link')
-      OR class IN('railway')
-    tolerance: 50.0
-  waterareas_gen0:
-    source: waterareas_gen1
-    sql_filter: ST_Area(geometry)>500000.000000
-    tolerance: 200.0
-  waterareas_gen1:
-    source: waterareas
-    sql_filter: ST_Area(geometry)>50000.000000
-    tolerance: 50.0
-  waterways_gen0:
-    source: waterways_gen1
-    tolerance: 200
-  waterways_gen1:
-    source: waterways
-    tolerance: 50.0
+use_single_id_space: true
+
 tables:
-  admin:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    - key: admin_level
-      name: admin_level
-      type: integer
-    mapping:
-      boundary:
-      - administrative
+  countries:
     type: polygon
-  aeroways:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
+    fields:
+      - {name: osm_id, type: id}
+      - {name: geometry, type: geometry}
+      - {name: area, type: area}
+      - {name: name, type: string, key: name}
+      - {name: name_en, type: string, key: 'name:en'}
+      - {name: wikidata, type: string, key: wikidata}
+      - {name: admin_level, type: integer, key: admin_level}
+      - {name: iso3166_1, type: string, key: 'ISO3166-1'}
+      - {name: iso3166_1_alpha2, type: string, key: 'ISO3166-1:alpha2'}
+      - {name: iso3166_1_alpha3, type: string, key: 'ISO3166-1:alpha3'}
+      - {name: iso3166_1_numeric, type: string, key: 'ISO3166-1:numeric'}
+      - {name: tags, type: hstore_tags}
     mapping:
-      aeroway:
-      - runway
-      - taxiway
-    type: linestring
-  amenities:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
+      place: [country]
+      "ISO3166-1": [__any__]
+      "ISO3166-1:alpha2": [__any__]
+      "ISO3166-1:alpha3": [__any__]
+      "ISO3166-1:numeric": [__any__]
+
+  pois:
+    type: geometry
+    fields:
+      - {name: osm_id, type: id}
+      - {name: geometry, type: geometry}
+      - {name: area, type: area}
+      - {name: name, type: string, key: name}
+      - {name: name_en, type: string, key: 'name:en'}
+      - {name: wikidata, type: string, key: wikidata}
+      - {name: place, type: string, key: place}
+      - {name: boundary, type: string, key: boundary}
+      - {name: admin_level, type: integer, key: admin_level}
+      - {name: tags, type: hstore_tags}
+    type_mappings:
+      points:
+        admin_level: [__any__]
+        aerialway: [__any__]
+        aeroway: [__any__]
+        amenity: [__any__]
+        architect: [__any__]
+        atm: [__any__]
+        attraction: [__any__]
+        barrier: [border_control]
+        bridge: [__any__]
+        boundary: [__any__]
+        building: [basilica, castle, cathedral, chapel, church, civic, college, commercial, monastery, mosque, museum, public, restaurant, retail, supermarket, temple, train_station, transportation, university]
+        craft: [__any__]
+        cuisine: [__any__]
+        drinking_water: [__any__]
+        emergency: [ambulance_station, defibrillator, evacuation_centre, lifeguard_base, lifeguard_tower, mountain_rescue, water_rescue_station]
+        heritage: [__any__]
+        highway: [bus_stop, rest_area, services]
+        historic: [__any__]
+        internet_access: [__any__]
+        landuse: [cemetery, recreation_ground, retail, winter_sports]
+        leisure: [__any__]
+        man_made: [__any__]
+        military: [__any__]
+        natural: [beach, cave_entrance, cliff, crevasse, geyser, glacier, hill, hot_spring, peak, reef, rock, sinkhole, spring, stone, volcano, waterfall, wetland]
+        office: [__any__]
+        place: [__any__]
+        public_transport: [bus_stop, railway_station, station, stop, stop_area, stop_position]
+        railway: [halt, station, stop, tram_stop]
+        religion: [__any__]
+        roller_coaster: [__any__]
+        service: [drive_through]
+        shop: [__any__]
+        spa: [therme]
+        sport: [__any__]
+        station: [subway]
+        tourism: [__any__]
+        "tower:type": [observation]
+        type: [multipolygon, boundary]
+        water: [lake, pond, reservoir]
+        waterway: [dam, rapids, waterfall]
+        wikidata: [__any__]
+        wikipedia: [__any__]
+      polygons:
+        admin_level: [__any__]
+        aerialway: [__any__]
+        aeroway: [__any__]
+        amenity: [__any__]
+        architect: [__any__]
+        atm: [__any__]
+        attraction: [__any__]
+        barrier: [border_control]
+        bridge: [__any__]
+        boundary: [__any__]
+        building: [basilica, castle, cathedral, chapel, church, civic, college, commercial, monastery, mosque, museum, public, restaurant, retail, supermarket, temple, train_station, transportation, university]
+        craft: [__any__]
+        cuisine: [__any__]
+        drinking_water: [__any__]
+        emergency: [ambulance_station, defibrillator, evacuation_centre, lifeguard_base, lifeguard_tower, mountain_rescue, water_rescue_station]
+        heritage: [__any__]
+        highway: [bus_stop, rest_area, services]
+        historic: [__any__]
+        internet_access: [__any__]
+        landuse: [cemetery, recreation_ground, retail, winter_sports]
+        leisure: [__any__]
+        man_made: [__any__]
+        military: [__any__]
+        natural: [beach, cave_entrance, cliff, crevasse, geyser, glacier, hill, hot_spring, peak, reef, rock, sinkhole, spring, stone, volcano, waterfall, wetland]
+        office: [__any__]
+        place: [__any__]
+        public_transport: [bus_stop, railway_station, station, stop, stop_area, stop_position]
+        railway: [halt, station, stop, tram_stop]
+        religion: [__any__]
+        roller_coaster: [__any__]
+        service: [drive_through]
+        shop: [__any__]
+        spa: [therme]
+        sport: [__any__]
+        station: [subway]
+        tourism: [__any__]
+        "tower:type": [observation]
+        type: [multipolygon, boundary]
+        water: [lake, pond, reservoir]
+        waterway: [dam, rapids, waterfall]
+        wikidata: [__any__]
+        wikipedia: [__any__]
+      linestrings:
+        admin_level: [__any__]
+        aerialway: [__any__]
+        aeroway: [__any__]
+        amenity: [__any__]
+        architect: [__any__]
+        atm: [__any__]
+        attraction: [__any__]
+        barrier: [border_control]
+        bridge: [__any__]
+        boundary: [__any__]
+        building: [basilica, castle, cathedral, chapel, church, civic, college, commercial, monastery, mosque, museum, public, restaurant, retail, supermarket, temple, train_station, transportation, university]
+        craft: [__any__]
+        cuisine: [__any__]
+        drinking_water: [__any__]
+        emergency: [ambulance_station, defibrillator, evacuation_centre, lifeguard_base, lifeguard_tower, mountain_rescue, water_rescue_station]
+        heritage: [__any__]
+        highway: [bus_stop, rest_area, services]
+        historic: [__any__]
+        internet_access: [__any__]
+        landuse: [cemetery, recreation_ground, retail, winter_sports]
+        leisure: [__any__]
+        man_made: [__any__]
+        military: [__any__]
+        natural: [beach, cave_entrance, cliff, crevasse, geyser, glacier, hill, hot_spring, peak, reef, rock, sinkhole, spring, stone, volcano, waterfall, wetland]
+        office: [__any__]
+        place: [__any__]
+        public_transport: [bus_stop, railway_station, station, stop, stop_area, stop_position]
+        railway: [halt, station, stop, tram_stop]
+        religion: [__any__]
+        roller_coaster: [__any__]
+        service: [drive_through]
+        shop: [__any__]
+        spa: [therme]
+        sport: [__any__]
+        station: [subway]
+        tourism: [__any__]
+        "tower:type": [observation]
+        type: [multipolygon, boundary]
+        water: [lake, pond, reservoir]
+        waterway: [dam, rapids, waterfall]
+        wikidata: [__any__]
+        wikipedia: [__any__]
+
+  poi_relation_members:
+    type: relation_member
+    fields:
+      - {name: relation_osm_id, type: id}
+      - {name: member_osm_type, type: member_type}
+      - {name: member_osm_id, type: member_id}
+      - {name: member_index, type: member_index}
+      - {name: member_role, type: member_role}
     mapping:
-      amenity:
-      - university
-      - school
-      - library
-      - fuel
-      - hospital
-      - fire_station
-      - police
-      - townhall
-    type: point
-  barrierpoints:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    mapping:
-      barrier:
-      - block
-      - bollard
-      - cattle_grid
-      - chain
-      - cycle_barrier
-      - entrance
-      - horse_stile
-      - gate
-      - spikes
-      - lift_gate
-      - kissing_gate
-      - fence
-      - 'yes'
-      - wire_fence
-      - toll_booth
-      - stile
-    type: point
-  barrierways:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    mapping:
-      barrier:
-      - city_wall
-      - fence
-      - hedge
-      - retaining_wall
-      - wall
-      - bollard
-      - gate
-      - spikes
-      - lift_gate
-      - kissing_gate
-      - embankment
-      - 'yes'
-      - wire_fence
-    type: linestring
-  buildings:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    mapping:
-      building:
-      - __any__
-    type: polygon
-  housenumbers:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    - key: addr:street
-      name: addr:street
-      type: string
-    - key: addr:postcode
-      name: addr:postcode
-      type: string
-    - key: addr:city
-      name: addr:city
-      type: string
-    mapping:
-      addr:housenumber:
-      - __any__
-    type: point
-  housenumbers_interpolated:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    - key: addr:street
-      name: addr:street
-      type: string
-    - key: addr:postcode
-      name: addr:postcode
-      type: string
-    - key: addr:city
-      name: addr:city
-      type: string
-    - key: addr:inclusion
-      name: addr:inclusion
-      type: string
-    mapping:
-      addr:interpolation:
-      - __any__
-    type: linestring
-  landusages:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    - name: area
-      type: webmerc_area
-    - args:
-        values:
-        - land
-        - island
-        - heath
-        - railway
-        - industrial
-        - commercial
-        - retail
-        - residential
-        - quarry
-        - zoo
-        - vineyard
-        - orchard
-        - scrub
-        - hospital
-        - place_of_worship
-        - theatre
-        - cinema
-        - nature_reserve
-        - parking
-        - fuel
-        - baracks
-        - library
-        - college
-        - school
-        - university
-        - golf_course
-        - allotments
-        - common
-        - pitch
-        - sports_centre
-        - garden
-        - recreation_ground
-        - village_green
-        - wetland
-        - grass
-        - meadow
-        - wood
-        - farmland
-        - farm
-        - farmyard
-        - cemetery
-        - forest
-        - park
-        - playground
-        - footway
-        - pedestrian
-      name: z_order
-      type: enumerate
-    mapping:
-      aeroway:
-      - runway
-      - taxiway
-      amenity:
-      - university
-      - school
-      - college
-      - library
-      - fuel
-      - parking
-      - cinema
-      - theatre
-      - place_of_worship
-      - hospital
-      barrier:
-      - hedge
-      highway:
-      - pedestrian
-      - footway
-      landuse:
-      - park
-      - forest
-      - residential
-      - retail
-      - commercial
-      - industrial
-      - railway
-      - cemetery
-      - grass
-      - farmyard
-      - farm
-      - farmland
-      - orchard
-      - vineyard
-      - wood
-      - meadow
-      - village_green
-      - recreation_ground
-      - allotments
-      - quarry
-      leisure:
-      - park
-      - garden
-      - playground
-      - golf_course
-      - sports_centre
-      - pitch
-      - stadium
-      - common
-      - nature_reserve
-      man_made:
-      - pier
-      military:
-      - barracks
-      natural:
-      - wood
-      - land
-      - scrub
-      - wetland
-      - heath
-      place:
-      - island
-      tourism:
-      - zoo
-    type: polygon
-  places:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    - args:
-        values:
-        - locality
-        - suburb
-        - hamlet
-        - village
-        - town
-        - city
-        - county
-        - region
-        - state
-        - country
-      name: z_order
-      type: enumerate
-    - key: population
-      name: population
-      type: integer
-    mapping:
-      place:
-      - country
-      - state
-      - region
-      - county
-      - city
-      - town
-      - village
-      - hamlet
-      - suburb
-      - locality
-    type: point
-  roads:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - name: type
-      type: mapping_value
-    - key: name
-      name: name
-      type: string
-    - key: tunnel
-      name: tunnel
-      type: boolint
-    - key: bridge
-      name: bridge
-      type: boolint
-    - key: oneway
-      name: oneway
-      type: direction
-    - key: ref
-      name: ref
-      type: string
-    - key: layer
-      name: z_order
-      type: wayzorder
-    - key: access
-      name: access
-      type: string
-    - key: service
-      name: service
-      type: string
-    - name: class
-      type: mapping_key
-    filters:
-      reject:
-        area: ["yes"]
-    mappings:
-      railway:
-        mapping:
-          railway:
-          - rail
-          - tram
-          - light_rail
-          - subway
-          - narrow_gauge
-          - preserved
-          - funicular
-          - monorail
-          - disused
-      roads:
-        mapping:
-          highway:
-          - motorway
-          - motorway_link
-          - trunk
-          - trunk_link
-          - primary
-          - primary_link
-          - secondary
-          - secondary_link
-          - tertiary
-          - tertiary_link
-          - road
-          - path
-          - track
-          - service
-          - footway
-          - bridleway
-          - cycleway
-          - steps
-          - pedestrian
-          - living_street
-          - unclassified
-          - residential
-          - raceway
-          man_made:
-          - pier
-          - groyne
-    type: linestring
-  transport_areas:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    mapping:
-      aeroway:
-      - aerodrome
-      - terminal
-      - helipad
-      - apron
-      railway:
-      - station
-      - platform
-    type: polygon
-  transport_points:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    - key: ref
-      name: ref
-      type: string
-    mapping:
-      aeroway:
-      - aerodrome
-      - terminal
-      - helipad
-      - gate
-      highway:
-      - motorway_junction
-      - turning_circle
-      - bus_stop
-      railway:
-      - station
-      - halt
-      - tram_stop
-      - crossing
-      - level_crossing
-      - subway_entrance
-    type: point
-  waterareas:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    - name: area
-      type: webmerc_area
-    mapping:
-      amenity:
-      - swimming_pool
-      landuse:
-      - basin
-      - reservoir
-      leisure:
-      - swimming_pool
-      natural:
-      - water
-      waterway:
-      - riverbank
-    type: polygon
-  waterways:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    mapping:
-      barrier:
-      - ditch
-      waterway:
-      - stream
-      - river
-      - canal
-      - drain
-      - ditch
-    type: linestring
+      admin_level: [__any__]
+      aerialway: [__any__]
+      aeroway: [__any__]
+      amenity: [__any__]
+      architect: [__any__]
+      atm: [__any__]
+      attraction: [__any__]
+      barrier: [border_control]
+      bridge: [__any__]
+      boundary: [__any__]
+      building: [basilica, castle, cathedral, chapel, church, civic, college, commercial, monastery, mosque, museum, public, restaurant, retail, supermarket, temple, train_station, transportation, university]
+      craft: [__any__]
+      cuisine: [__any__]
+      drinking_water: [__any__]
+      emergency: [ambulance_station, defibrillator, evacuation_centre, lifeguard_base, lifeguard_tower, mountain_rescue, water_rescue_station]
+      heritage: [__any__]
+      highway: [bus_stop, rest_area, services]
+      historic: [__any__]
+      internet_access: [__any__]
+      landuse: [cemetery, recreation_ground, retail, winter_sports]
+      leisure: [__any__]
+      man_made: [__any__]
+      military: [__any__]
+      natural: [beach, cave_entrance, cliff, crevasse, geyser, glacier, hill, hot_spring, peak, reef, rock, sinkhole, spring, stone, volcano, waterfall, wetland]
+      office: [__any__]
+      place: [__any__]
+      public_transport: [bus_stop, railway_station, station, stop, stop_area, stop_position]
+      railway: [halt, station, stop, tram_stop]
+      religion: [__any__]
+      roller_coaster: [__any__]
+      service: [drive_through]
+      shop: [__any__]
+      spa: [therme]
+      sport: [__any__]
+      station: [subway]
+      tourism: [__any__]
+      "tower:type": [observation]
+      type: [multipolygon, boundary]
+      water: [lake, pond, reservoir]
+      waterway: [dam, rapids, waterfall]
+      wikidata: [__any__]
+      wikipedia: [__any__]
+
+tags:
+  load_all: true
